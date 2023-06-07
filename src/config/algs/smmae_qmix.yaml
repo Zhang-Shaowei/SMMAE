@@ -1,0 +1,48 @@
+name: "smmae_qmix"
+
+action_selector: "smmae_alpha_adaptive"
+epsilon_start: 1.0
+epsilon_finish: 0.05
+epsilon_anneal_time: 50000
+
+runner: "smmae_episode"
+mac: "smmae_mac"
+
+buffer_size: 5000
+
+# update the target network every {} episodes
+target_update_interval: 200
+
+# use the Q_Learner to train
+agent_output_type: "q"
+learner: "smmae_q_learner"
+double_q: True
+mixer: "qmix"
+mixing_embed_dim: 32
+hypernet_layers: 2
+hypernet_embed: 64
+
+evaluation_epsilon: 0.0
+
+# --------------added for adaptive selector------
+decay: "linear"
+use_adaptive_alpha: True
+
+vae_density_latent_dim: 32 # VAEDensity latent dim
+vae_density_encoder_hidden_size: 64 # VAEDensity encoder hidden layer size
+vae_density_decoder_hidden_size: 64 # VAEDensity decoder hidden layer size
+vae_density_lr: 0.01
+vae_density_beta: 0.5   #
+vae_density_update_batch_size: 10000 # batch_size to update VAEDensity
+vae_density_update_batch_minsize: 16 # minimal batch size to update vae to keep stable
+episode_update_vae_density_interval: 0
+
+alpha_threshold: 1.2    # 1.4 for 2c_vs_64zg, 1.5 for 3s5z_vs_3s6z, 0.6 for MMM2, 1.2 for others
+alpha_high_value: 0.3  # 0.4 for 3s5z_vs_3s6z, 0.3 for others
+alpha_low_value: 0.04
+episode_num_for_alpha: 5
+
+exp_policy_env_reward_weight: 0.5 # add env reward to learn exp policy
+exp_reward_weight: 0.02 # exp reward weight to learn exp policy
+
+
